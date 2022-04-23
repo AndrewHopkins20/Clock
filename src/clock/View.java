@@ -15,7 +15,9 @@ public class View implements Observer {
     public static JMenuBar createMenuBar() {
         JMenuBar menuBar;
         JMenu menu, submenu;
-        JMenuItem item;
+        JMenuItem setAlarm;
+        final JFrame fr = null;
+        
         
         menuBar = new JMenuBar();
         
@@ -23,9 +25,29 @@ public class View implements Observer {
         menu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(menu);
        
-       item = new JMenuItem("Change Clock View");
-        item.setMnemonic(KeyEvent.VK_F);
-        menu.add(item);
+       setAlarm = new JMenuItem("Set Alarm");
+        setAlarm.setMnemonic(KeyEvent.VK_F);
+        menu.add(setAlarm);
+        
+        setAlarm.addActionListener(
+        
+        new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               JOptionPane.showMessageDialog(fr, "Set Alarm");
+               
+            }
+            
+        }
+        
+        
+        );
+        
+        
+        
+        
+        
+        
         
         return menuBar;
     }
