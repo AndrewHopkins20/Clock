@@ -17,6 +17,7 @@ public class View implements Observer {
         JMenu menu, submenu;
         JMenuItem setAlarm;
         final JFrame fr = null;
+       
         
         
         menuBar = new JMenuBar();
@@ -34,8 +35,15 @@ public class View implements Observer {
         new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-               JOptionPane.showMessageDialog(fr, "Set Alarm");
-               
+        String input;
+        int hours;
+        int minutes;
+        
+          input = JOptionPane.showInputDialog(fr, "Set Hours");
+          hours = Integer.parseInt(input);
+          input = JOptionPane.showInputDialog(fr, "Set Minutes");
+          minutes = Integer.parseInt(input);
+          JOptionPane.showMessageDialog(fr, "Your Alarm Is" + hours + ":" + minutes);
             }
             
         }
