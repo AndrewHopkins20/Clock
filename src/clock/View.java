@@ -1,6 +1,9 @@
 package clock;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.util.Observer;
 import java.util.Observable;
@@ -9,12 +12,36 @@ public class View implements Observer {
     
     ClockPanel panel;
     
+    public static JMenuBar createMenuBar() {
+        JMenuBar menuBar;
+        JMenu menu, submenu;
+        JMenuItem item;
+        
+        menuBar = new JMenuBar();
+        
+        menu = new JMenu("Menu");
+        menu.setMnemonic(KeyEvent.VK_F);
+        menuBar.add(menu);
+       
+       item = new JMenuItem("Change Clock View");
+        item.setMnemonic(KeyEvent.VK_F);
+        menu.add(item);
+        
+        return menuBar;
+    }
+    
     public View(Model model) {
         JFrame frame = new JFrame();
         panel = new ClockPanel(model);
         //frame.setContentPane(panel);
         frame.setTitle("Java Clock");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+       
+        
+        
+       
+        
         
         // Start of border layout code
         
@@ -28,13 +55,13 @@ public class View implements Observer {
         
         Container pane = frame.getContentPane();
         
-        JButton button = new JButton("Button 1 (PAGE_START)");
-        pane.add(button, BorderLayout.PAGE_START);
-         
+       
+        
         panel.setPreferredSize(new Dimension(200, 200));
+        frame.setJMenuBar(createMenuBar());
         pane.add(panel, BorderLayout.CENTER);
          
-        button = new JButton("Button 3 (LINE_START)");
+       JButton button = new JButton("Button 3 (LINE_START)");
         pane.add(button, BorderLayout.LINE_START);
          
         button = new JButton("Long-Named Button 4 (PAGE_END)");
@@ -45,6 +72,7 @@ public class View implements Observer {
         
         // End of borderlayout code
         
+     
         frame.pack();
         frame.setVisible(true);
     }
@@ -52,4 +80,8 @@ public class View implements Observer {
     public void update(Observable o, Object arg) {
         panel.repaint();
     }
+    
+    
+    
+
 }
