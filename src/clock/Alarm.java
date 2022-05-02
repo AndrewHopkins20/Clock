@@ -9,6 +9,6 @@ package clock;
  *
  * @author Andrew Hopkins
  */
-public class Alarm {
-    
+public class Alarm  {
+        
 }

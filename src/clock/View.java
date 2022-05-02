@@ -3,7 +3,6 @@ package clock;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.util.Observer;
 import java.util.Observable;
@@ -14,8 +13,9 @@ public class View implements Observer {
     
     public static JMenuBar createMenuBar() {
         JMenuBar menuBar;
-        JMenu menu, submenu;
+        JMenu menu;
         JMenuItem setAlarm;
+        JMenuItem changeClock;
         final JFrame fr = null;
        
         
@@ -23,11 +23,9 @@ public class View implements Observer {
         menuBar = new JMenuBar();
         
         menu = new JMenu("Menu");
-        menu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(menu);
        
        setAlarm = new JMenuItem("Set Alarm");
-        setAlarm.setMnemonic(KeyEvent.VK_F);
         menu.add(setAlarm);
         
         setAlarm.addActionListener(
@@ -50,12 +48,6 @@ public class View implements Observer {
         
         
         );
-        
-        
-        
-        
-        
-        
         
         return menuBar;
     }
