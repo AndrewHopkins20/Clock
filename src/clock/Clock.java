@@ -12,9 +12,6 @@ public class Clock {
         model.addObserver(view);
         Controller controller = new Controller(model, view);
         
-        PriorityQueue<Alarm> queue;
         
-        
-        queue = new SortedArrayPriorityQueue<>(8);
     }
 }

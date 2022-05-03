@@ -3,16 +3,25 @@ package clock;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.*;
 import java.util.Observer;
 import java.util.Observable;
-import static javax.swing.JOptionPane.PLAIN_MESSAGE;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import queuemanager.PriorityQueue;
+import queuemanager.QueueOverflowException;
+import queuemanager.QueueUnderflowException;
+import queuemanager.SortedArrayPriorityQueue;
 
 public class View implements Observer {
     
     ClockPanel panel;
+    PriorityQueue<Alarm> queue = new  SortedArrayPriorityQueue<>(8);
     
-    public static JMenuBar createMenuBar() {
+              
+    
+    public JMenuBar createMenuBar() {
         JMenuBar menuBar;
         JMenu menu;
         JMenuItem setAlarm;
@@ -34,6 +43,11 @@ public class View implements Observer {
         new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                //Gets instance of current time
+                  Calendar date = Calendar.getInstance();
+                  int  currentHour = date.get(Calendar.HOUR);
+                  int currentMinute = date.get(Calendar.MINUTE);
                 
                 int hours = 0;
                 int minutes = 0;
@@ -68,9 +82,28 @@ public class View implements Observer {
                
                JOptionPane.showMessageDialog(null, "your alarm " + alarmName + " is set for: " + hours + ":" + minutes + ":" + seconds);
                
+               //Creates Doubles to calculate Priority
+               double doubleCurrent = currentHour + (currentMinute/100);
+               double doubleAlarm = hours + (minutes/100);
                
+               double doubleResult = (doubleCurrent/doubleAlarm)*100;
+               
+               int intResult = (int) doubleResult;
+                System.out.println(intResult);
                 
-                
+                Alarm setAlarm = new Alarm(hours, minutes, seconds);
+           
+                try {
+                    queue.add(setAlarm, intResult);
+                } catch (QueueOverflowException ex) {
+                    Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                         System.out.println(queue.toString());
+                try {
+                    System.out.println(queue.head().getHours());
+                } catch (QueueUnderflowException ex) {
+                    Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
         }
