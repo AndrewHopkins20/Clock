@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.util.Observer;
 import java.util.Observable;
+import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 
 public class View implements Observer {
     
@@ -33,15 +34,35 @@ public class View implements Observer {
         new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-        String input;
-        int hours;
-        int minutes;
+                
+                int hour = 0;
+                int minute = 0;
         
-          input = JOptionPane.showInputDialog(fr, "Set Hours");
-          hours = Integer.parseInt(input);
-          input = JOptionPane.showInputDialog(fr, "Set Minutes");
-          minutes = Integer.parseInt(input);
-          JOptionPane.showMessageDialog(fr, "Your Alarm Is" + hours + ":" + minutes);
+               SpinnerModel hourModel= new SpinnerNumberModel(01, 01, 12, 1);
+               SpinnerModel minuteModel= new SpinnerNumberModel(0, 00, 59, 1);
+               
+               JSpinner hourspinner = new JSpinner(hourModel);
+               JSpinner minutespinner = new JSpinner(minuteModel);
+               
+               
+               JOptionPane.showMessageDialog(null, hourspinner, "Set Hours", JOptionPane.PLAIN_MESSAGE);
+               JOptionPane.showMessageDialog(null, minutespinner, "Set Minutes", JOptionPane.PLAIN_MESSAGE);
+               
+               
+               Object hourResult = hourspinner.getValue();
+               Object minuteResult = minutespinner.getValue();
+               
+               Number setHour = (Number) hourResult;
+               Number setMinute = (Number) minuteResult;
+               
+               hour = setHour.intValue();
+               minute = setMinute.intValue();
+               
+               JOptionPane.showMessageDialog(null, "your alarm is set for: " + hour + minute);
+               
+               
+                
+                
             }
             
         }
