@@ -35,31 +35,38 @@ public class View implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                int hour = 0;
-                int minute = 0;
+                int hours = 0;
+                int minutes = 0;
+                int seconds = 0;
                 String alarmName;
         
                SpinnerModel hourModel= new SpinnerNumberModel(01, 01, 12, 1);
                SpinnerModel minuteModel= new SpinnerNumberModel(0, 00, 59, 1);
+               SpinnerModel secondModel= new SpinnerNumberModel(0, 00, 59, 1);
                
                JSpinner hourspinner = new JSpinner(hourModel);
                JSpinner minutespinner = new JSpinner(minuteModel);
+               JSpinner secondspinner = new JSpinner(secondModel);
                
                alarmName = JOptionPane.showInputDialog(null, "Set Alarm Name");
                JOptionPane.showMessageDialog(null, hourspinner, "Set Hours", JOptionPane.PLAIN_MESSAGE);
                JOptionPane.showMessageDialog(null, minutespinner, "Set Minutes", JOptionPane.PLAIN_MESSAGE);
+               JOptionPane.showMessageDialog(null, minutespinner, "Set Seconds", JOptionPane.PLAIN_MESSAGE);
                
                
                Object hourResult = hourspinner.getValue();
                Object minuteResult = minutespinner.getValue();
+               Object secondResult = secondspinner.getValue();
                
                Number setHour = (Number) hourResult;
                Number setMinute = (Number) minuteResult;
+               Number setSecond = (Number) secondResult;
                
-               hour = setHour.intValue();
-               minute = setMinute.intValue();
+               hours = setHour.intValue();
+               minutes = setMinute.intValue();
+               seconds = setSecond.intValue();
                
-               JOptionPane.showMessageDialog(null, "your alarm " + alarmName + " is set for: " + hour + ":" + minute);
+               JOptionPane.showMessageDialog(null, "your alarm " + alarmName + " is set for: " + hours + ":" + minutes + ":" + seconds);
                
                
                 
