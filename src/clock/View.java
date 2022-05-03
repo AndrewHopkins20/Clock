@@ -37,6 +37,7 @@ public class View implements Observer {
                 
                 int hour = 0;
                 int minute = 0;
+                String alarmName;
         
                SpinnerModel hourModel= new SpinnerNumberModel(01, 01, 12, 1);
                SpinnerModel minuteModel= new SpinnerNumberModel(0, 00, 59, 1);
@@ -44,7 +45,7 @@ public class View implements Observer {
                JSpinner hourspinner = new JSpinner(hourModel);
                JSpinner minutespinner = new JSpinner(minuteModel);
                
-               
+               alarmName = JOptionPane.showInputDialog(null, "Set Alarm Name");
                JOptionPane.showMessageDialog(null, hourspinner, "Set Hours", JOptionPane.PLAIN_MESSAGE);
                JOptionPane.showMessageDialog(null, minutespinner, "Set Minutes", JOptionPane.PLAIN_MESSAGE);
                
@@ -58,7 +59,7 @@ public class View implements Observer {
                hour = setHour.intValue();
                minute = setMinute.intValue();
                
-               JOptionPane.showMessageDialog(null, "your alarm is set for: " + hour + minute);
+               JOptionPane.showMessageDialog(null, "your alarm " + alarmName + " is set for: " + hour + ":" + minute);
                
                
                 
