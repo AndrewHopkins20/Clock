@@ -10,15 +10,24 @@ package clock;
  * @author Andrew Hopkins
  */
 public class Alarm  {
-     
+    String alarmName;
+
+    public String getAlarmName() {
+        return alarmName;
+    }
+
+    public void setAlarmName(String alarmName) {
+        this.alarmName = alarmName;
+    }
     int hours;
     int minutes;
     int seconds;
 
-    public Alarm(int hours, int minutes, int seconds) {
+    public Alarm(String alarmName, int hours, int minutes, int seconds) {
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;
+        this.alarmName = alarmName;
     }
     
     

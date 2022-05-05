@@ -25,7 +25,7 @@ public class View implements Observer {
         JMenuBar menuBar;
         JMenu menu;
         JMenuItem setAlarm;
-        JMenuItem changeClock;
+        JMenuItem viewNextAlarm;
         final JFrame fr = null;
        
         
@@ -37,6 +37,10 @@ public class View implements Observer {
        
        setAlarm = new JMenuItem("Set Alarm");
         menu.add(setAlarm);
+        
+        
+       viewNextAlarm = new JMenuItem("View Next Alarm");     
+        menu.add(viewNextAlarm);
         
         setAlarm.addActionListener(
         
@@ -65,7 +69,7 @@ public class View implements Observer {
                alarmName = JOptionPane.showInputDialog(null, "Set Alarm Name");
                JOptionPane.showMessageDialog(null, hourspinner, "Set Hours", JOptionPane.PLAIN_MESSAGE);
                JOptionPane.showMessageDialog(null, minutespinner, "Set Minutes", JOptionPane.PLAIN_MESSAGE);
-               JOptionPane.showMessageDialog(null, minutespinner, "Set Seconds", JOptionPane.PLAIN_MESSAGE);
+               JOptionPane.showMessageDialog(null, secondspinner, "Set Seconds", JOptionPane.PLAIN_MESSAGE);
                
                
                Object hourResult = hourspinner.getValue();
@@ -91,14 +95,14 @@ public class View implements Observer {
                int intResult = (int) doubleResult;
                 System.out.println(intResult);
                 
-                Alarm setAlarm = new Alarm(hours, minutes, seconds);
+                Alarm setAlarm = new Alarm(alarmName, hours, minutes, seconds);
            
                 try {
                     queue.add(setAlarm, intResult);
                 } catch (QueueOverflowException ex) {
                     Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                         System.out.println(queue.toString());
+                         
                 try {
                     System.out.println(queue.head().getHours());
                 } catch (QueueUnderflowException ex) {
@@ -110,6 +114,33 @@ public class View implements Observer {
         
         
         );
+       
+        
+        viewNextAlarm.addActionListener( 
+                
+                     new ActionListener(){ 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if(queue.isEmpty()){
+                    
+                        JOptionPane.showMessageDialog(null, "No alarms set please set an alarm");                   
+                        
+                    }
+                    else {
+                    JOptionPane.showMessageDialog(null, "Your Next Alarm Called: " + queue.head().getAlarmName() + "is set for: " + queue.head().getHours()+ ":" + queue.head().getMinutes());
+                    }
+                    } catch (QueueUnderflowException ex) {
+                    Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                     
+                     
+                     
+                     }
+                
+        );
+      
         
         return menuBar;
     }
@@ -139,7 +170,6 @@ public class View implements Observer {
         
         Container pane = frame.getContentPane();
         
-       
         
         panel.setPreferredSize(new Dimension(200, 200));
         frame.setJMenuBar(createMenuBar());
