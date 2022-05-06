@@ -1,7 +1,10 @@
 package clock;
 
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
+import queuemanager.QueueUnderflowException;
 
 public class Controller {
     
@@ -17,6 +20,11 @@ public class Controller {
         
         listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                try {
+                    view.runAlarm();
+                } catch (QueueUnderflowException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 model.update();
             }
         };

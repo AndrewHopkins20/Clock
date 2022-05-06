@@ -18,6 +18,7 @@ public class View implements Observer {
     
     ClockPanel panel;
     PriorityQueue<Alarm> queue = new  SortedArrayPriorityQueue<>(8);
+     
     
               
     
@@ -148,7 +149,6 @@ public class View implements Observer {
                           new ActionListener(){ 
             @Override
             public void actionPerformed(ActionEvent e) {
-                //checks if any alarms exist and if there is it removes the next alarm
                 try {
                     if(queue.isEmpty()){
                     
@@ -170,15 +170,28 @@ public class View implements Observer {
      
         
         );
-        
-        
-        
-        
-      
+
         
         return menuBar;
     }
     
+    
+    /**
+     *
+     */
+    public void runAlarm() throws QueueUnderflowException{
+            Calendar date = Calendar.getInstance();
+            int  currentHour = date.get(Calendar.HOUR);
+            int currentMinute = date.get(Calendar.MINUTE);
+        
+        if(currentHour == queue.head().getHours() && currentMinute == queue.head().getMinutes()){
+            JOptionPane.showMessageDialog(null, "Your Alarm " + queue.head().getAlarmName() + " Is going off");
+            queue.remove();
+        }
+        
+        
+        }
+          
     public View(Model model) {
         JFrame frame = new JFrame();
         panel = new ClockPanel(model);
