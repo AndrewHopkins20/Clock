@@ -142,6 +142,38 @@ public class View implements Observer {
                      }
                 
         );
+        
+        
+        removeAlarm.addActionListener(
+                          new ActionListener(){ 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //checks if any alarms exist and if there is it removes the next alarm
+                try {
+                    if(queue.isEmpty()){
+                    
+                        JOptionPane.showMessageDialog(null, "No alarms to be removed");                   
+                        
+                    }
+                    else {
+                    JOptionPane.showMessageDialog(null, "Your  Alarm Called: " + queue.head().getAlarmName() + " set for: " + queue.head().getHours()+ ":" + queue.head().getMinutes() + " has been Removed!");
+                    queue.remove();
+                    }
+                    } catch (QueueUnderflowException ex) {
+                    Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                     
+                     
+                     
+                     }
+     
+        
+        );
+        
+        
+        
+        
       
         
         return menuBar;
