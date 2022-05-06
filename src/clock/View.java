@@ -26,10 +26,9 @@ public class View implements Observer {
         JMenu menu;
         JMenuItem setAlarm;
         JMenuItem viewNextAlarm;
-        final JFrame fr = null;
-       
+        JMenuItem removeAlarm;
         
-        
+     
         menuBar = new JMenuBar();
         
         menu = new JMenu("Menu");
@@ -41,6 +40,9 @@ public class View implements Observer {
         
        viewNextAlarm = new JMenuItem("View Next Alarm");     
         menu.add(viewNextAlarm);
+        
+        removeAlarm = new JMenuItem("Remove Alarm");
+        menu.add(removeAlarm);
         
         setAlarm.addActionListener(
         
