@@ -9,6 +9,8 @@ import javax.swing.*;
 public class ClockPanel extends JPanel {
     
     Model model;
+    int alarmHandHour;
+    int alarmHandMinute;
     
     public ClockPanel(Model m) {
         model = m;
@@ -100,5 +102,18 @@ public class ClockPanel extends JPanel {
         x1 = x0 + radius * Math.cos(theta);
         y1 = y0 - radius * Math.sin(theta);
         gg.draw(new Line2D.Double(x0, y0, x1, y1));
+        
+        
+        
+         // Draw the alarm hand
+        if(alarmHandHour != 0){
+            gg.setColor(Color.green);
+            gg.setStroke(new BasicStroke(2.0f));
+            theta = (90 - (alarmHandHour + alarmHandMinute / 60.0) * 30) / (180 / Math.PI);
+            radius = 0.65 * size;
+            x1 = x0 + radius * Math.cos(theta);
+            y1 = y0 - radius * Math.sin(theta);
+            gg.draw(new Line2D.Double(x0, y0, x1, y1));
+        }
     }
 }

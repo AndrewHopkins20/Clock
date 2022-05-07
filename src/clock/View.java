@@ -236,6 +236,13 @@ public class View implements Observer {
     }
     
     public void update(Observable o, Object arg) {
+        try {
+            panel.alarmHandHour = queue.head().getHours();
+            panel.alarmHandMinute = queue.head().getMinutes();
+        } catch (QueueUnderflowException ex) {
+            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         panel.repaint();
     }
     
