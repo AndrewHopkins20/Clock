@@ -190,11 +190,15 @@ public class View implements Observer {
         int currentMinute = date.get(Calendar.MINUTE);
         
         //checks if current time is time set on the head alarm and runs the alarm, after running it removes it
+       if(!queue.isEmpty()){
+        
         if(currentHour == queue.head().getHours() && currentMinute == queue.head().getMinutes()){
             JOptionPane.showMessageDialog(null, "Your Alarm " + queue.head().getAlarmName() + " Is going off");
             queue.remove();
         }    
-    }
+       }
+        }
+    
           
     public View(Model model) {
         JFrame frame = new JFrame();
@@ -237,12 +241,17 @@ public class View implements Observer {
     
     public void update(Observable o, Object arg) {
         try {
+        if(!queue.isEmpty()){
+   
             panel.alarmHandHour = queue.head().getHours();
             panel.alarmHandMinute = queue.head().getMinutes();
+        } else {
+            panel.alarmHandHour = 0;
+        }
         } catch (QueueUnderflowException ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        } 
+           
         panel.repaint();
     }
     
