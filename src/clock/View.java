@@ -16,12 +16,13 @@ import queuemanager.SortedArrayPriorityQueue;
 
 public class View implements Observer {
     
+    //Sets up the Priority Queue
     ClockPanel panel;
     PriorityQueue<Alarm> queue = new  SortedArrayPriorityQueue<>(8);
      
     
               
-    
+    //Creates the menu bar and its menus and menu items
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
         JMenu menu;
@@ -29,19 +30,23 @@ public class View implements Observer {
         JMenuItem viewNextAlarm;
         JMenuItem removeAlarm;
         
-     
+        //sets up the menubar
         menuBar = new JMenuBar();
         
+        //adds menu to menu from menu bar
         menu = new JMenu("Menu");
         menuBar.add(menu);
-       
-       setAlarm = new JMenuItem("Set Alarm");
+        
+        //add set alarm menu item to menu
+        setAlarm = new JMenuItem("Set Alarm");
         menu.add(setAlarm);
         
-        
-       viewNextAlarm = new JMenuItem("View Next Alarm");     
+        //add view alarm menu item to menu
+        viewNextAlarm = new JMenuItem("View Next Alarm");     
         menu.add(viewNextAlarm);
         
+        
+        //add remove alarm menu item to menu
         removeAlarm = new JMenuItem("Remove Alarm");
         menu.add(removeAlarm);
         
@@ -52,145 +57,144 @@ public class View implements Observer {
             public void actionPerformed(ActionEvent e) {
                 
                 //Gets instance of current time
-                  Calendar date = Calendar.getInstance();
-                  int  currentHour = date.get(Calendar.HOUR);
-                  int currentMinute = date.get(Calendar.MINUTE);
+                Calendar date = Calendar.getInstance();
+                int  currentHour = date.get(Calendar.HOUR);
+                int currentMinute = date.get(Calendar.MINUTE);
                 
                 int hours = 0;
                 int minutes = 0;
                 int seconds = 0;
                 String alarmName;
         
-               SpinnerModel hourModel= new SpinnerNumberModel(01, 01, 12, 1);
-               SpinnerModel minuteModel= new SpinnerNumberModel(0, 00, 59, 1);
-               SpinnerModel secondModel= new SpinnerNumberModel(0, 00, 59, 1);
+                //sets spinner models for hour minutes and seconds
+                SpinnerModel hourModel= new SpinnerNumberModel(01, 01, 12, 1);
+                SpinnerModel minuteModel= new SpinnerNumberModel(0, 00, 59, 1);
+                SpinnerModel secondModel= new SpinnerNumberModel(0, 00, 59, 1);
                
-               JSpinner hourspinner = new JSpinner(hourModel);
-               JSpinner minutespinner = new JSpinner(minuteModel);
-               JSpinner secondspinner = new JSpinner(secondModel);
+                // sets spinners to corresponding model
+                JSpinner hourspinner = new JSpinner(hourModel);
+                JSpinner minutespinner = new JSpinner(minuteModel);
+                JSpinner secondspinner = new JSpinner(secondModel);
                
-               alarmName = JOptionPane.showInputDialog(null, "Set Alarm Name");
-               JOptionPane.showMessageDialog(null, hourspinner, "Set Hours", JOptionPane.PLAIN_MESSAGE);
-               JOptionPane.showMessageDialog(null, minutespinner, "Set Minutes", JOptionPane.PLAIN_MESSAGE);
-               JOptionPane.showMessageDialog(null, secondspinner, "Set Seconds", JOptionPane.PLAIN_MESSAGE);
+                //creates the dialog buttons for the set alarms
+                alarmName = JOptionPane.showInputDialog(null, "Set Alarm Name");
+                JOptionPane.showMessageDialog(null, hourspinner, "Set Hours", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, minutespinner, "Set Minutes", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, secondspinner, "Set Seconds", JOptionPane.PLAIN_MESSAGE);
                
+                //sets values from spinners as objects
+                Object hourResult = hourspinner.getValue();
+                Object minuteResult = minutespinner.getValue();
+                Object secondResult = secondspinner.getValue();
                
-               Object hourResult = hourspinner.getValue();
-               Object minuteResult = minutespinner.getValue();
-               Object secondResult = secondspinner.getValue();
+                //sets objects to numbers
+                Number setHour = (Number) hourResult;
+                Number setMinute = (Number) minuteResult;
+                Number setSecond = (Number) secondResult;
                
-               Number setHour = (Number) hourResult;
-               Number setMinute = (Number) minuteResult;
-               Number setSecond = (Number) secondResult;
+                //sets numbers to ints
+                hours = setHour.intValue();
+                minutes = setMinute.intValue();
+                seconds = setSecond.intValue();
                
-               hours = setHour.intValue();
-               minutes = setMinute.intValue();
-               seconds = setSecond.intValue();
+                //shows the alarm that was just set
+                JOptionPane.showMessageDialog(null, "your alarm " + alarmName + " is set for: " + hours + ":" + minutes + ":" + seconds);
                
-               JOptionPane.showMessageDialog(null, "your alarm " + alarmName + " is set for: " + hours + ":" + minutes + ":" + seconds);
+                //Creates Doubles to calculate Priority
+                double doubleCurrent = currentHour + (currentMinute/100);
+                double doubleAlarm = hours + (minutes/100);
                
-               //Creates Doubles to calculate Priority
-               double doubleCurrent = currentHour + (currentMinute/100);
-               double doubleAlarm = hours + (minutes/100);
+                //calculates the resulting double
+                double doubleResult = (doubleCurrent/doubleAlarm)*100;
                
-               double doubleResult = (doubleCurrent/doubleAlarm)*100;
-               
-               int intResult = (int) doubleResult;
+                //sets double to int
+                int intResult = (int) doubleResult;
                 System.out.println(intResult);
                 
+                //sets values to an alarms
                 Alarm setAlarm = new Alarm(alarmName, hours, minutes, seconds);
            
                 try {
+                    //puts alarm and result into the queue
                     queue.add(setAlarm, intResult);
                 } catch (QueueOverflowException ex) {
                     Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
                 }
                          
                 try {
+                    //souts head hours
                     System.out.println(queue.head().getHours());
                 } catch (QueueUnderflowException ex) {
                     Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            
+            }    
         }
-        
-        
+        //closes listener
         );
        
-        
         viewNextAlarm.addActionListener( 
                 
-                     new ActionListener(){ 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if(queue.isEmpty()){
-                    
-                        JOptionPane.showMessageDialog(null, "No alarms set please set an alarm");                   
-                        
-                    }
-                    else {
-                    JOptionPane.showMessageDialog(null, "Your Next Alarm Called: " + queue.head().getAlarmName() + "is set for: " + queue.head().getHours()+ ":" + queue.head().getMinutes());
-                    }
+            new ActionListener(){ 
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        if(queue.isEmpty()){
+                            //if no alarms set shows this dialog box
+                            JOptionPane.showMessageDialog(null, "No alarms set please set an alarm");                        
+                        }
+                        else {
+                            //shows head alarm in queue
+                            JOptionPane.showMessageDialog(null, "Your Next Alarm Called: " + queue.head().getAlarmName() + "is set for: " + queue.head().getHours()+ ":" + queue.head().getMinutes());
+                        }
                     } catch (QueueUnderflowException ex) {
-                    Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+ 
             }
-                     
-                     
-                     
-                     }
                 
         );
         
-        
         removeAlarm.addActionListener(
-                          new ActionListener(){ 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if(queue.isEmpty()){
-                    
-                        JOptionPane.showMessageDialog(null, "No alarms to be removed");                   
-                        
+            new ActionListener(){ 
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        if(queue.isEmpty()){
+                            //if no alarms set shows this dialog box
+                            JOptionPane.showMessageDialog(null, "No alarms to be removed");                   
+                        }
+                        else {
+                        //tells you what alarm will be rmeoved and removes alarm
+                        JOptionPane.showMessageDialog(null, "Your  Alarm Called: " + queue.head().getAlarmName() + " set for: " + queue.head().getHours()+ ":" + queue.head().getMinutes() + " has been Removed!");
+                        queue.remove();
+                        }
+                    }catch (QueueUnderflowException ex) {
+                        Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    else {
-                    JOptionPane.showMessageDialog(null, "Your  Alarm Called: " + queue.head().getAlarmName() + " set for: " + queue.head().getHours()+ ":" + queue.head().getMinutes() + " has been Removed!");
-                    queue.remove();
-                    }
-                    } catch (QueueUnderflowException ex) {
-                    Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-                     
-                     
-                     
-                     }
-     
-        
-        );
 
-        
+            }
+        );                   
         return menuBar;
     }
-    
     
     /**
      *
      */
     public void runAlarm() throws QueueUnderflowException{
-            Calendar date = Calendar.getInstance();
-            int  currentHour = date.get(Calendar.HOUR);
-            int currentMinute = date.get(Calendar.MINUTE);
         
+        //gets current time
+        Calendar date = Calendar.getInstance();
+        int  currentHour = date.get(Calendar.HOUR);
+        int currentMinute = date.get(Calendar.MINUTE);
+        
+        //checks if current time is time set on the head alarm and runs the alarm, after running it removes it
         if(currentHour == queue.head().getHours() && currentMinute == queue.head().getMinutes()){
             JOptionPane.showMessageDialog(null, "Your Alarm " + queue.head().getAlarmName() + " Is going off");
             queue.remove();
-        }
-        
-        
-        }
+        }    
+    }
           
     public View(Model model) {
         JFrame frame = new JFrame();
@@ -198,13 +202,7 @@ public class View implements Observer {
         //frame.setContentPane(panel);
         frame.setTitle("Java Clock");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-       
-        
-        
-       
-        
-        
+               
         // Start of border layout code
         
         // I've just put a single button in each of the border positions:
@@ -216,8 +214,7 @@ public class View implements Observer {
         // to help you get started.
         
         Container pane = frame.getContentPane();
-        
-        
+              
         panel.setPreferredSize(new Dimension(200, 200));
         frame.setJMenuBar(createMenuBar());
         pane.add(panel, BorderLayout.CENTER);

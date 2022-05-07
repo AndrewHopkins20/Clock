@@ -11,18 +11,12 @@ package clock;
  */
 public class Alarm  {
     String alarmName;
-
-    public String getAlarmName() {
-        return alarmName;
-    }
-
-    public void setAlarmName(String alarmName) {
-        this.alarmName = alarmName;
-    }
     int hours;
     int minutes;
     int seconds;
 
+    
+    //constructor for the alarm
     public Alarm(String alarmName, int hours, int minutes, int seconds) {
         this.hours = hours;
         this.minutes = minutes;
@@ -30,7 +24,13 @@ public class Alarm  {
         this.alarmName = alarmName;
     }
     
-    
+    public String getAlarmName() {
+        return alarmName;
+    }
+
+    public void setAlarmName(String alarmName) {
+        this.alarmName = alarmName;
+    }
 
     public int getHours() {
         return hours;

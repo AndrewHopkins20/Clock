@@ -21,6 +21,7 @@ public class Controller {
         listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
+                    //checks if the alarm needs to run every 10th of a second
                     view.runAlarm();
                 } catch (QueueUnderflowException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
