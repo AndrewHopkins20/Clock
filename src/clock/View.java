@@ -14,6 +14,10 @@ import queuemanager.QueueOverflowException;
 import queuemanager.QueueUnderflowException;
 import queuemanager.SortedArrayPriorityQueue;
 
+/**
+ *
+ * @author Andrew Hopkins
+ */
 public class View implements Observer {
     
     //Sets up the Priority Queue
@@ -23,6 +27,11 @@ public class View implements Observer {
     
               
     //Creates the menu bar and its menus and menu items
+
+    /**
+     *
+     * @return        the menu bar and its menus and menu items
+     */
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
         JMenu menu;
@@ -181,6 +190,8 @@ public class View implements Observer {
     
     /**
      *
+     * @throws queuemanager.QueueUnderflowException
+     * @throws QueueUnderflowException makes sure the queue isn't empty
      */
     public void runAlarm() throws QueueUnderflowException{
         
@@ -199,7 +210,10 @@ public class View implements Observer {
        }
         }
     
-          
+    /**
+     *
+     * @param model    tells view if anything has changed
+     */
     public View(Model model) {
         JFrame frame = new JFrame();
         panel = new ClockPanel(model);
@@ -220,6 +234,8 @@ public class View implements Observer {
         Container pane = frame.getContentPane();
               
         panel.setPreferredSize(new Dimension(200, 200));
+        
+        //sets the menu bar to the frame as well as the border buttons
         frame.setJMenuBar(createMenuBar());
         pane.add(panel, BorderLayout.CENTER);
          
@@ -239,13 +255,19 @@ public class View implements Observer {
         frame.setVisible(true);
     }
     
+    /**
+     *
+     * @param o
+     * @param arg
+     */
     public void update(Observable o, Object arg) {
         try {
         if(!queue.isEmpty()){
-   
+            //checks to see if there is an alarm and then sets the alarm hand variables in clock panel
             panel.alarmHandHour = queue.head().getHours();
             panel.alarmHandMinute = queue.head().getMinutes();
         } else {
+            //sets alarm hand as 0 when there isnt an alarm set, so that when the alarm is removed the alarm hand disappears
             panel.alarmHandHour = 0;
         }
         } catch (QueueUnderflowException ex) {

@@ -6,6 +6,10 @@ import java.util.logging.Logger;
 import javax.swing.Timer;
 import queuemanager.QueueUnderflowException;
 
+/**
+ *
+ * @author Andrew Hopkins
+ */
 public class Controller {
     
     ActionListener listener;
@@ -14,6 +18,11 @@ public class Controller {
     Model model;
     View view;
     
+    /**
+     *
+     * @param m
+     * @param v
+     */
     public Controller(Model m, View v) {
         model = m;
         view = v;
